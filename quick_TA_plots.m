@@ -1,12 +1,12 @@
 %%
-start_folder = 'H:\_processed\';
+start_folder = 'H:\OneDrive\UNSW\Software\quick-2D-plots\_test-data\';
 
-pick_new_file = false; 
+pick_new_file = false;
 
 % data limits
 crop_data = false;
-crop_time = [-10E-9,1E-3]; % will 
-crop_eV = [-10E-9,1E-3]; % will 
+crop_time = [-10E-9,1E-3]; % will
+crop_eV = [2.4,0.9]; % will
 
 % zlimits
 zLim = [-20,10]*1E-3; % leave blank for auto
@@ -20,14 +20,14 @@ spec_time = [
     450E-12 , 550E-12
     0.9E-8  ,  1.1E-8
     0.9E-5  ,  1.1E-5
-];
+    ];
 
 % eV for kinetics
 kin_eV = [
     1.05 ,1.15
     1.45 ,1.5
     2.45,2.55
-];
+    ];
 
 norm_spec_index = 1; % which region above to plot normalized spectra
 
@@ -37,7 +37,7 @@ fs_neg_time = -1E-12;
 
 % zero for noise region
 auto_remove_noise = true; % NaN data with pre-zero std above below thrshold
-auto_noise_threshold = 1E-3;
+auto_noise_threshold = 4E-3;
 
 zero_ev = []; % zero the eV region here
 
@@ -57,7 +57,7 @@ if pick_new_file || ~exist('data_loaded_bg','var')
     
     [FILENAME, PATHNAME, FILTERINDEX] = uigetfile('*.csv', 'Please pick file', start_folder);
     
-    [data_loaded,time,wave] = f_LoadTA([PATHNAME,'\',FILENAME]);
+    [data_loaded,time_loaded,wave_loaded] = f_LoadTA([PATHNAME,'\',FILENAME]);
     
     name = FILENAME(1:end-4);
     
@@ -69,12 +69,8 @@ if pick_new_file || ~exist('data_loaded_bg','var')
         neg_time = fs_neg_time;
     end
     
-    [data_loaded_bg, collected_bg] = f_SubtractBG(data_loaded,time,neg_time);
-    
-    time_loaded = time;
-    wave_loaded = wave;
+    [data_loaded_bg, collected_bg] = f_SubtractBG(data_loaded,time,neg_time); 
 end
-
 %%
 if crop_data
     [~,i_w] = min(abs(wave_loaded - crop_eV(1)));
@@ -85,13 +81,23 @@ if crop_data
     i_t = sort(i_t);
     
     data = data_loaded_bg(i_t(1):i_t(2),i_w(1):i_w(2));
-    wave = time_loaded(i_w(1):i_w(2));
-    time = wave_loaded(i_t(1):i_t(2));
+    wave = wave_loaded(i_w(1):i_w(2));
+    time = time_loaded(i_t(1):i_t(2));
 else
     data = data_loaded_bg;
-    wave = time_loaded;
-    time = wave_loaded;
+    wave = wave_loaded;
+    time = time_loaded;
 end
+
+
+%%
+number_nan = sum(isnan(data(:)));
+nan_frac = number_nan./numel(data);
+
+if nan_frac > 0.2
+    warning([num2str(nan_frac*100),'% of data is NaN, maybe something went wrong with collection'])
+end
+
 
 %%
 if ~isempty(zero_ev)
@@ -109,13 +115,10 @@ if auto_remove_noise
     
     data(:,rem) = NaN;
 end
-    
 
 %% Make Colours
-
 spec_c = f_ColorPicker(size(spec_time,1),'type','sequential','hue','blue');
 kin_c = f_ColorPicker(size(kin_eV,1),'type','sequential','hue','red');
-
 
 
 %% Create Traces
