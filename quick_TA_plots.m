@@ -62,7 +62,6 @@ if pick_new_file || ~exist('data_loaded_bg','var')
     
     name = FILENAME(1:end-4);
     
-    [data_loaded_bg, collected_bg] = f_SubtractBG(data_loaded,time,neg_time); 
     
     if min(diff(time_loaded)) > 1E-12
         is_fs = false;
@@ -71,6 +70,8 @@ if pick_new_file || ~exist('data_loaded_bg','var')
         is_fs = true;
         neg_time = fs_neg_time;
     end
+    
+    [data_loaded_bg, collected_bg] = f_SubtractBG(data_loaded,time_loaded,neg_time); 
 end
 %%
 if crop_data
