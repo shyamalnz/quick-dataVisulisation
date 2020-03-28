@@ -37,7 +37,8 @@ fs_neg_time = -1E-12;
 
 % zero for noise region
 auto_remove_noise = true; % NaN data with pre-zero std above below thrshold
-auto_noise_threshold = 4E-3;
+auto_noise_threshold = 4E-3; % threshold for removal
+auto_remove_fraction_max = 0.2; % maximum fraction of data that can be removed via this method
 
 zero_ev = []; % zero the eV region here
 
@@ -112,8 +113,12 @@ if auto_remove_noise
     std_noSig = std(data(1:i_neg,:));
     
     rem = std_noSig > auto_noise_threshold;
-    
-    data(:,rem) = NaN;
+    rem_frac = sum(rem)./size(data,2);
+    if rem_frac > auto_remove_fraction_max
+        warning(['Auto noise rejection failed! (',num2str(rem_frac*100),'% of data is noise by given limits']);
+    else
+        data(:,rem) = NaN;
+    end
 end
 
 %% Make Colours
