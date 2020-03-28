@@ -48,6 +48,9 @@ ls_kinetics = '-'; % linestyle for kinetics
 ls_spectra = '-'; % linestyle for spectra
 colour_patch = false; % make colours match
 
+%
+error_reporting = true;
+
 %% %%%%%%%%%%%%%%%%%%% %%
 %% Script Below Here   %%
 %% %%%%%%%%%%%%%%%%%%%%%%
@@ -171,6 +174,12 @@ try
     f_Plot(spectra_n,wave,h(6),'zLim',zLim./max(n_s),'LineStyle',ls_spectra,...
         'patch',kin_eVsss(norm_spec_index,:),'Legend',specLabel(2,:),'PlotStyles',spec_c);
     
+    
+    %%
+    if error_reporting
+        save('error_dump')
+        warning('Error reporting enabled. Please send "error_dump.mat" with description of what you are doing')
+    end
 catch ME
     pause(1)
     close all
