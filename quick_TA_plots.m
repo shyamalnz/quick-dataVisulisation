@@ -43,13 +43,22 @@ auto_remove_fraction_max = 0.2; % maximum fraction of data that can be removed v
 zero_ev = []; % zero the eV region here
 
 % Plotting Styles
-
 ls_kinetics = '-'; % linestyle for kinetics
 ls_spectra = '-'; % linestyle for spectra
 colour_patch = false; % make colours match
 
+% colours
+% below is the a series shades of red and blue
+
+%spec_c = f_ColorPicker(size(spec_time,1),'type','sequential','hue','blue');
+%kin_c = f_ColorPicker(size(kin_eV,1),'type','sequential','hue','red');
+
+% below uses a rainbow of colurs
+spec_c = f_ColorPicker(size(spec_time,1),'type','qualitative');
+kin_c = f_ColorPicker(size(kin_eV,1),'type','qualitative');
+
 % Error logging
-error_reporting = true;
+error_reporting = false;
 
 %% %%%%%%%%%%%%%%%%%%% %%
 %% Script Below Here   %%
@@ -125,9 +134,6 @@ try
         end
     end
     
-    %% Make Colours
-    spec_c = f_ColorPicker(size(spec_time,1),'type','sequential','hue','blue');
-    kin_c = f_ColorPicker(size(kin_eV,1),'type','sequential','hue','red');
     
     
     %% Create Traces
