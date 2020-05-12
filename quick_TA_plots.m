@@ -9,7 +9,7 @@ crop_time = [-10E-9,1E-3]; % will
 crop_eV = [2.4,0.9]; % will
 
 % zlimits
-zLim = [-20,10]*1E-3; % leave blank for auto
+zLim = [-5,5]*1E-3; % leave blank for auto
 %zLim = []; % leave blank for auto
 
 % plotting figure number
@@ -17,15 +17,15 @@ fig_number = 2;
 
 % times for spectra
 spec_time = [
-    450E-12 , 550E-12
-    0.9E-8  ,  1.1E-8
-    0.9E-5  ,  1.1E-5
+    -1E-9, 1E-9
+    %20E-9, 30E-9
+    1E-5, 1E-4
     ];
 
 % eV for kinetics
 kin_eV = [
     1.05 ,1.15
-    1.45 ,1.5
+    %1.45 ,1.5
     2.45,2.55
     ];
 
@@ -140,8 +140,6 @@ try
     [kinetics, kinLabel] = f_Traces(data, wave, kin_eV);
     [spectra, specLabel] = f_Traces(data, time, spec_time);
     
-    %% Normalize if requested
-    
     
     %%
     if colour_patch
@@ -154,43 +152,96 @@ try
         spec_patch_c = [0.8,0.8,0.8];
         kin_patch_c = [0.8,0.8,0.8];
     end
+    
     %% Plot data
+    if false
+        RowStyles = {
+            'LinLog'
+            'Linear'
+            };
+        [h,fh] = f_MultiLinLogAxes(2,fig_number,'RowStyles',RowStyles,'title',name,'xPadding',200,'xRightOffset',100);
+        
+        
+        f_Plot(data,time,wave,h(1:2),'zLim',zLim);
+        
+        f_Plot(kinetics,time,h(3:4),'zLim',zLim,'LineStyle',ls_kinetics,...
+            'patch',spec_time,'patch_color',kin_patch_c,'Legend',kinLabel(2,:),'PlotStyles',kin_c);
+        f_Plot(spectra,wave,h(5),'zLim',zLim,'LineStyle',ls_spectra,...
+            'patch',kin_eV,'patch_color',spec_patch_c,'Legend',specLabel(2,:),'PlotStyles',spec_c);
+        
+        
+        
+        [~,I_n] = min(abs(wave - kin_eV(norm_spec_index,1)));
+        [~,I_n(2)] = min(abs(wave - kin_eV(norm_spec_index,2)));
+        I_n = sort(I_n);
+        n_s = max(abs(spectra(I_n(1):I_n(2),:)));
+        spectra_n = spectra./n_s;
+        
+        f_Plot(spectra_n,wave,h(6),'zLim',zLim./max(n_s),'LineStyle',ls_spectra,...
+            'patch',kin_eV(norm_spec_index,:),'Legend',specLabel(2,:),'PlotStyles',spec_c);
+    end
+    
+    %% Make comparsion plots
     RowStyles = {
-        'LinLog'
-        'Linear'
+        'LinLog','Linear','LinLog'
+        'Linear','LinLog','Linear'
+        'Linear','LinLog','LinLog'
         };
-    [h,fh] = f_MultiLinLogAxes(2,fig_number,'RowStyles',RowStyles,'title',name,'xPadding',200,'xRightOffset',100);
+    [h_2,fh] = f_MultiLinLogAxes(3,fig_number+1,'RowStyles',RowStyles,'xPadding',200,'xRightOffset',100);
+    
+    h_s = h_2([3,7,8,11,12]);
+    h_k = h_2([4,5,9,13,14]);
+    h_remove = h_2([6,10]);
+    delete(h_remove);
+    
+    is_nan = any(isnan(data),1);
+    % X = A\B is the solution in the least squares sense to the under- or overdetermined system of equations A*X = B
+    
+    % Spectra
+    X = spectra(~is_nan,:)\data(:,~is_nan)';
+    f_Plot(spectra,wave,h_s(1),'zLim',zLim,'LineStyle',ls_spectra,'Legend',specLabel(2,:),'PlotStyles',kin_c);
+    f_Plot(X',time,h_s(2:3),'PlotStyles',kin_c,'patch',spec_time,'LineStyle',ls_kinetics);
+    
+    res = data;
+    res(:,~is_nan) = data(:,~is_nan) - [spectra(~is_nan,:)*X]';
+    f_Plot(res,time,wave,h_s(4:5),'zLim',zLim);
+    
+    % Kinetics
+    X = kinetics\data(:,~is_nan);
+    f_Plot(kinetics,time,h_k(1:2),'zLim',zLim,'LineStyle',ls_kinetics,'Legend',kinLabel(2,:),'PlotStyles',kin_c);
+    X_p = nan(size(spectra,1),size(kinetics,2));
+    X_p(~is_nan,:) = X';
+    f_Plot(X_p,wave,h_k(3),'LineStyle',ls_spectra,'PlotStyles',kin_c,'patch',kin_eV);
+    
+    res = data;
+    res(:,~is_nan) = data(:,~is_nan) - kinetics*X;
+    f_Plot(res,time,wave,h_k(4:5),'zLim',zLim);
+    
+    f_Plot(data,time,wave,h_2(1:2),'zLim',zLim);
     
     
-    f_Plot(data,time,wave,h(1:2),'zLim',zLim);
     
-    f_Plot(kinetics,time,h(3:4),'zLim',zLim,'LineStyle',ls_kinetics,...
-        'patch',spec_time,'patch_color',kin_patch_c,'Legend',kinLabel(2,:),'PlotStyles',kin_c);
-    f_Plot(spectra,wave,h(5),'zLim',zLim,'LineStyle',ls_spectra,...
-        'patch',kin_eV,'patch_color',spec_patch_c,'Legend',specLabel(2,:),'PlotStyles',spec_c);
-    
-    
-    
-    [~,I_n] = min(abs(wave - kin_eV(norm_spec_index,1)));
-    [~,I_n(2)] = min(abs(wave - kin_eV(norm_spec_index,2)));
-    I_n = sort(I_n);
-    n_s = max(abs(spectra(I_n(1):I_n(2),:)));
-    spectra_n = spectra./n_s;
-    
-    f_Plot(spectra_n,wave,h(6),'zLim',zLim./max(n_s),'LineStyle',ls_spectra,...
-        'patch',kin_eV(norm_spec_index,:),'Legend',specLabel(2,:),'PlotStyles',spec_c);
-    
-    
+catch ME
+    pause(1)
+    close all
+    save('error_dump')
+    strErr = [
+        'Unable to continue.',newline,...
+        ];
+    fprintf(2,strErr)
+    strErr = [
+        'Closing figures. Please send "error_dump.mat" with description of what you are doing',newline,...
+        newline,...
+        ME.stack(end).name,' (line ',num2str(ME.stack(end).line),')',newline,...
+        newline,...
+        ME.message
+        ];
+    disp(strErr)
     %%
     if error_reporting
         save('error_dump')
         warning('Error reporting enabled. Please send "error_dump.mat" with description of what you are doing')
     end
-catch ME
-    pause(1)
-    close all
-    save('error_dump')
-    error('Unable to continue, closing figures. Please send "error_dump.mat" with description of what you are doing')
 end
 
 %%
