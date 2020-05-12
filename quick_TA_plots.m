@@ -1,7 +1,7 @@
 %%
 start_folder = 'H:\OneDrive\UNSW\Software\quick-2D-plots\_test-data\';
 
-pick_new_file = false;
+pick_new_file = true;
 
 % data limits
 crop_data = false;
