@@ -4,7 +4,14 @@
 %% %%%%%%%%%%%%%%%%%%%%%%
 
 %%
-kArray = 1./kArray;
+lifetimes_cell = cellfun(@str2numEng,start_lifetimes,'UniformOutput',false);
+lifetimes = zeros(size(lifetimes_cell));
+for n = 1 : size(lifetimes,1)
+    lt_temp = [lifetimes_cell{n,:}];
+    lifetimes(n,1:length(lt_temp)) = lt_temp;
+end
+
+kArray = 1./lifetimes;
 kArray(kArray==inf) = 0;
 kScaler = 1./kScaler;
 
@@ -13,4 +20,4 @@ kScaler = 1./kScaler;
 
 % Do GF
 [fitSummary, kArray, fullSummary, figure_handles] = f_MultiKGlobalFit( data,...
-    time, wave, kArray, kScaler, delta, tzOffset,'name',name,'PlotR',fig_number+2);
+    time, wave, kArray, kScaler, delta, tzOffset,'name',name,'PlotR',fig_number+4);

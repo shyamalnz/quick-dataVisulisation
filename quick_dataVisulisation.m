@@ -1,13 +1,13 @@
 %% Data Loaction 
 start_folder = 'H:\OneDrive\UNSW\Software\quick-2D-plots\_test-data\';
-pick_new_file = false;
+pick_new_file = true;
 
 %% What should I do
 plot_slices = true;
 global_fit = true;
 
 % plotting figure number
-fig_number = 10; % will use fig_number + 0, +1 + 2 + 3
+fig_number = 10; % will use fig_number + (0 to 9)
 
 %% Data Options
 crop_data = false;
@@ -46,14 +46,14 @@ kin_eV = [
     ];
 
 %% Global Fitting Options
-kArray = [
-    1E-8,      0,      0,    0;
-    1E-8, 8.5E-5,      0,    0;
-    1E-8, 8.5E-5, 6.7E-5,    0;
-    1E-8, 8.5E-5, 6.7E-5, 1E-2;
-    ];
+start_lifetimes = {
+    '10 n',      '',     '', ''
+    '10 n', '100 n',    '', ''
+    '10 n', '100 n', '1 u', ''
+    '10 n', '100 n', '1 u', '10 u'
+    };
 
-tzOffset = [-1E-9,1E-9];
+tzOffset = [-5E-9,5E-9];
 delta = [100E-12,3E-9];
 kScaler = [10E-12,1E-1];
 
@@ -75,11 +75,13 @@ try
     %% make and plot
     if plot_slices
         quick_TA_plots
+        pause(1);
     end
     
     %% Global Fit
     if global_fit
         quick_GlobFit
+        pause(1);
     end
     
     %% Clean up workspace
