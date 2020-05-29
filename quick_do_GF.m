@@ -19,5 +19,5 @@ kScaler = 1./kScaler;
 %delta = 100E-15;
 
 % Do GF
-[fitSummary, kArray, fullSummary, figure_handles] = f_MultiKGlobalFit( data,...
+[fitSummary, kArray, fullSummary, figure_handles] = f_MultiKGlobalFit( data_no_nan,...
     time, wave, kArray, kScaler, delta, tzOffset,'name',name,'PlotR',fig_number+4);
