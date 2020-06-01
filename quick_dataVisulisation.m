@@ -36,19 +36,19 @@ zLim_norm = [-2,1];
 % times for spectra
 spec_time = [
     %start, % end, norm scalar,  plot_norm
-   -0.1E-9,  0.1E-9,   0.9131E-3,   1
-      1E-9,    2E-9,    1.293E-3,   1
+    -0.1E-9,  0.1E-9,   0.9131E-3,   1
+    1E-9,    2E-9,    1.293E-3,   1
     0.9E-7,    2E-7,        1E-3,   0
-      %1E-4,    3E-4,        1E-3,   0
+    %1E-4,    3E-4,        1E-3,   0
     ];
 
 % eV for kinetics
 kin_eV = [
     %start, % end, norm scalar, plot_norm
-      2.08,  2.07,     1    ,  1
-      1.95,  2.05,     1    ,  1
-      1.291, 1.259,    1    ,  0
-      0.9911, 0.9386,  1    ,  0
+    2.08,  2.07,     1    ,  1
+    1.95,  2.05,     1    ,  1
+    1.291, 1.259,    1    ,  0
+    0.9911, 0.9386,  1    ,  0
     ];
 
 %% Global Fitting Options
@@ -73,52 +73,52 @@ error_reporting = false;
 %% %%%%%%%%%%%%%%%%%%% %%
 %% Script Below Here   %%
 %% %%%%%%%%%%%%%%%%%%%%%%
-fig_c = fig_number;
-
-%% loading, croping, zero regions
-quick_loadCropData
-
-%% make slices
-if plot_slices || plot_slices_LSQ
-    quick_do_traces
-end
-
-%% Plot Simple
-fig_c = fig_c + 1;
-if plot_slices
-    quick_plot_simple
-    pause(1);
-end
-
-%% Plot LSW
-fig_c = fig_c + 1;
-if plot_slices_LSQ
-    quick_plot_LSQ
-    pause(1);
-end
-
-%% Global Fit
-fig_c = fig_c + 1;
-if do_global_fit
-    quick_do_GF
-    pause(1);
-end
-
-%% Global Fit
-fig_c = fig_c + 1;
-if do_SVD
-    [ U,S,V,diagS ] = f_SVD( data_no_nan, time, wave,'NumPlotted',components_to_plot);
-end
-
-%%
-keep_vars = {
-    ''
-    };
-
-%% Clean up workspace
-
-if false
+try
+    fig_c = fig_number;
+    
+    keep_vars = {
+        ''
+        };
+    
+    %% loading, croping, zero regions
+    quick_loadCropData
+    
+    %% make slices
+    if plot_slices || plot_slices_LSQ
+        quick_do_traces
+    end
+    
+    %% Plot Simple
+    fig_c = fig_c + 1;
+    if plot_slices
+        quick_plot_simple
+        pause(1);
+    end
+    
+    %% Plot LSW
+    fig_c = fig_c + 1;
+    if plot_slices_LSQ
+        quick_plot_LSQ
+        pause(1);
+    end
+    
+    %% Global Fit
+    fig_c = fig_c + 1;
+    if do_global_fit
+        quick_do_GF
+        pause(1);
+    end
+    
+    %% Global Fit
+    fig_c = fig_c + 1;
+    if do_SVD
+        [ U,S,V,diagS ] = f_SVD( data_no_nan, time, wave,'NumPlotted',components_to_plot);
+    end
+    
+catch ME
+    
     %% Error Code
+    
     %pause(1)
     close all
     save('error_dump')
@@ -134,12 +134,14 @@ if false
         ME.message
         ];
     disp(strErr)
-    %%
+    %
     if error_reporting
         save('error_dump')
         warning('Error reporting enabled. Please send "error_dump.mat" with description of what you are doing')
     end
 end
+
+%% Clean up workspace
 
 
 
