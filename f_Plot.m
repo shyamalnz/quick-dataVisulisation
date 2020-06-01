@@ -666,7 +666,7 @@ if ~opt.Hold
         xlabh.Position(1) = xLab_pos;
         
         if x_tick_scalar < 2
-            h(1).XTickLabel{1} = '';
+            h(1).XTickLabel(1) = '';
             linear_label = opt.LinearBound;
             linear_label = num2str(linear_label,'%1.0E');
             linear_label = [strrep(linear_label,'E-','\times10^{-'),'}'];
