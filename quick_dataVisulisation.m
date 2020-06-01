@@ -14,7 +14,7 @@ fs_neg_time = -1E-12;
 y_units = ['\DeltaT/T'];
 
 %% What do I want to do, options below
-crop_data = false;
+crop_data = true;
 plot_slices = true; % every day traces
 plot_slices_LSQ = false; % trys to measure surface with LSQ fitting
 do_SVD = false;
@@ -25,26 +25,30 @@ do_global_fit = false;
 zero_ev = []; % zero the eV region here
 
 crop_time = [-10E-9,1E-3]; % will
-crop_eV = [2.1,0.9]; % will
+crop_eV = [2.05,0.9]; % will
 
-zLim = [-6,2]*1E-3;
-zLim_norm = [-4,5];
+zLim = [-2,1]*1E-3;
+zLim_norm = [-2,1];
 %zLim = []; % leave blank for auto
 
 %% Plotting
 
 % times for spectra
 spec_time = [
-    %start, % end, norm scalar
-     -1E-9,  1E-9,     0.484E-3
-      1E-5,  1E-4,     0.484E-3
+    %start, % end, norm scalar,  plot_norm
+   -0.1E-9,  0.1E-9,   0.9131E-3,   1
+      1E-9,    2E-9,    1.293E-3,   1
+    0.9E-7,    2E-7,        1E-3,   0
+      %1E-4,    3E-4,        1E-3,   0
     ];
 
 % eV for kinetics
 kin_eV = [
-    %start, % end, norm scalar
-      1.05,  1.15,  -3.33E-3
-      1.95,  1.9,   -0.5658E-3
+    %start, % end, norm scalar, plot_norm
+      2.08,  2.07,     1    ,  1
+      1.95,  2.05,     1    ,  1
+      1.291, 1.259,    1    ,  0
+      0.9911, 0.9386,  1    ,  0
     ];
 
 %% Global Fitting Options
@@ -105,6 +109,11 @@ fig_c = fig_c + 1;
 if do_SVD
     [ U,S,V,diagS ] = f_SVD( data_no_nan, time, wave,'NumPlotted',components_to_plot);
 end
+
+%%
+keep_vars = {
+    ''
+    };
 
 %% Clean up workspace
 
