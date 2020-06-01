@@ -8,14 +8,42 @@
 colour_patch = false; % make colours match
 use_red_blue = false;
 
+%% Update Command Line
+disp_str = 'Making Traces';
+dispstat(disp_str);
 
 %% Create Traces
 [kinetics, kinLabel] = f_Traces(data, wave, kin_eV(:,1:2));
 [spectra, specLabel] = f_Traces(data, time, spec_time(:,1:2));
 
+% Remove all nan traces
+i_rem = all(isnan(kinetics));
+if any(i_rem)
+    disp_str = ['** Could not make kinetic trace at, ', kinLabel{i_rem}];
+    dispstat(disp_str,'keepthis');
+    
+    kinetics(:,i_rem) = [];
+    kinLabel(:,i_rem) = [];
+    kin_eV(i_rem,:) = [];
+end
+
+i_rem = all(isnan(spectra));
+if any(i_rem)
+    disp_str = ['** Could not make kinetic trace at, ', specLabel{i_rem}];
+    dispstat(disp_str,'keepthis');
+    
+    spectra(:,i_rem) = [];
+    specLabel(:,i_rem) = [];
+    spec_time(i_rem,:) = [];
+end
+
+%% Normalize
 kinetics_n = kinetics./kin_eV(:,3)';
 spectra_n = spectra./spec_time(:,3)';
 
+
+
+%% Update Normalization Trace Labesl
 scalar_str = arrayfun(@(x) num2str(x,'%3.2e'),kin_eV(:,3),'uniformoutput',false);
 scalar_str = strrep(scalar_str,'e+00','');
 scalar_str = regexprep(scalar_str,'(?<=[-\+])0','');

@@ -5,7 +5,13 @@
 if pick_new_file || ~exist('data_loaded_bg','var')
     
     [FILENAME, PATHNAME, FILTERINDEX] = uigetfile('*.csv', 'Please pick file', start_folder);
+    %
     
+    % Update Command Line
+    disp_str = 'Loading data';
+    dispstat(disp_str);
+    
+    %
     [data_loaded,time_loaded,wave_loaded] = f_LoadTA([PATHNAME,'\',FILENAME]);
     
     name = FILENAME(1:end-4);
@@ -22,8 +28,19 @@ if pick_new_file || ~exist('data_loaded_bg','var')
     [data_loaded_bg, collected_bg] = f_SubtractBG(data_loaded,time_loaded,neg_time);
 end
 
+%% Update Command Line
+disp_str = [
+    'Working with file:',newline,...
+    FILENAME,' (', PATHNAME,')',newline];
+dispstat(disp_str,'keepthis');
 %%
 if crop_data
+    
+    % Update Command Line
+    disp_str = 'Data has been cropped';
+    dispstat(disp_str,'keepthis');
+    
+    
     [~,i_w] = min(abs(wave_loaded - crop_eV(1)));
     [~,i_w(2)] = min(abs(wave_loaded - crop_eV(2)));
     i_w = sort(i_w);
@@ -52,6 +69,11 @@ end
 
 %%
 if ~isempty(zero_ev)
+    
+    % Update Command Line
+    disp_str = 'Some wavelengths have been zeroed';
+    dispstat(disp_str,'keepthis');
+    
     [~,i_z] = min(abs(wave - zero_ev(1)));
     [~,i_z(2)] = min(abs(wave - zero_ev(2)));
     i_z = sort(i_z);

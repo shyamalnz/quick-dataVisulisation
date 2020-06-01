@@ -3,6 +3,13 @@
 %% Script Below Here   %%
 %% %%%%%%%%%%%%%%%%%%%%%%
 
+
+
+
+%% Update Command Line
+disp_str = ['Figures ',num2str(fig_c),' - Global fitting'];
+dispstat(disp_str,'keepthis');
+
 %%
 lifetimes_cell = cellfun(@str2numEng,start_lifetimes,'UniformOutput',false);
 lifetimes = zeros(size(lifetimes_cell));
@@ -20,4 +27,4 @@ kScaler = 1./kScaler;
 
 % Do GF
 [fitSummary, kArray, fullSummary, figure_handles] = f_MultiKGlobalFit( data_no_nan,...
-    time, wave, kArray, kScaler, delta, tzOffset,'name',name,'PlotR',fig_number+4);
+    time, wave, kArray, kScaler, delta, tzOffset,'name',name,'PlotR',fig_c);

@@ -73,12 +73,18 @@ error_reporting = false;
 %% %%%%%%%%%%%%%%%%%%% %%
 %% Script Below Here   %%
 %% %%%%%%%%%%%%%%%%%%%%%%
-try
+%try
     fig_c = fig_number;
     
     keep_vars = {
         ''
         };
+    str_line = '-------------------------------------';
+    
+    
+    dispstat('','init');
+    disp_str = [newline,str_line,newline,'quick_dataVisulisation',newline,str_line];
+    dispstat(disp_str,'keepthis');
     
     %% loading, croping, zero regions
     quick_loadCropData
@@ -102,6 +108,16 @@ try
         pause(1);
     end
     
+    %% SVD
+    fig_c = fig_c + 1;
+    if do_SVD
+        % Update Command Line
+        disp_str = ['Figures ',num2str(fig_c),' - SVD'];
+        dispstat(disp_str,'keepthis');
+        
+        [ U,S,V,diagS ] = f_SVD( data_no_nan, time, wave,'NumPlotted',components_to_plot,'fig',fig_c);
+    end
+    
     %% Global Fit
     fig_c = fig_c + 1;
     if do_global_fit
@@ -109,13 +125,7 @@ try
         pause(1);
     end
     
-    %% Global Fit
-    fig_c = fig_c + 1;
-    if do_SVD
-        [ U,S,V,diagS ] = f_SVD( data_no_nan, time, wave,'NumPlotted',components_to_plot);
-    end
-    
-catch ME
+%catch ME
     
     %% Error Code
     
@@ -139,7 +149,7 @@ catch ME
         save('error_dump')
         warning('Error reporting enabled. Please send "error_dump.mat" with description of what you are doing')
     end
-end
+%end
 
 %% Clean up workspace
 

@@ -1,4 +1,8 @@
+
+
+
 %% Make Simple Style comparsion plots
+%%
 RowStyles = {
     'LinLog','Linear','LinLog'
     'Linear','Linear','LinLog'
@@ -12,6 +16,11 @@ axesNumTxtAppend = {
     'Normalized Kinetics'
     };
 
+%% Update Command Line
+disp_str = ['Figures ',num2str(fig_c),' - Simple traces'];
+dispstat(disp_str,'keepthis');
+
+%%
 [ h, fh, positions,titleH,fontSize,tbh] = f_MultiLinLogAxes(3,fig_c,'RowStyles',RowStyles,...
     'xPadding',120,'xRightOffset',20,'axesNumTxtAppend',axesNumTxtAppend);
 h_surface = h(1:2);
