@@ -16,9 +16,9 @@ y_units = ['\DeltaT/T'];
 %% What do I want to do, options below
 crop_data = true;
 plot_slices = true; % every day traces
-plot_slices_LSQ = false; % trys to measure surface with LSQ fitting
-do_SVD = false;
-do_global_fit = false;
+plot_slices_LSQ = true; % trys to measure surface with LSQ fitting
+do_SVD = true;
+do_global_fit = true;
 
 %% Data Cropping Options
 % zero for noise region
@@ -73,7 +73,7 @@ error_reporting = false;
 %% %%%%%%%%%%%%%%%%%%% %%
 %% Script Below Here   %%
 %% %%%%%%%%%%%%%%%%%%%%%%
-%try
+try
     fig_c = fig_number;
     
     keep_vars = {
@@ -95,37 +95,41 @@ error_reporting = false;
     end
     
     %% Plot Simple
-    fig_c = fig_c + 1;
     if plot_slices
         quick_plot_simple
         pause(1);
     end
+    % this produces 1 figure
+    fig_c = fig_c + 1;
     
     %% Plot LSW
-    fig_c = fig_c + 1;
     if plot_slices_LSQ
         quick_plot_LSQ
         pause(1);
     end
+    % this produces 1 figure
+    fig_c = fig_c + 1;
     
     %% SVD
-    fig_c = fig_c + 1;
     if do_SVD
         % Update Command Line
-        disp_str = ['Figures ',num2str(fig_c),' - SVD'];
+        disp_str = ['Figures ',num2str(fig_c),' to ',num2str(fig_c+1),' - SVD'];
         dispstat(disp_str,'keepthis');
         
         [ U,S,V,diagS ] = f_SVD( data_no_nan, time, wave,'NumPlotted',components_to_plot,'fig',fig_c);
     end
+    % this produces 2 figure
+    fig_c = fig_c + 2;
     
     %% Global Fit
-    fig_c = fig_c + 1;
     if do_global_fit
         quick_do_GF
         pause(1);
     end
+    % this produces 2 figure
+    fig_c = fig_c + 2;
     
-%catch ME
+catch ME
     
     %% Error Code
     
@@ -149,10 +153,12 @@ error_reporting = false;
         save('error_dump')
         warning('Error reporting enabled. Please send "error_dump.mat" with description of what you are doing')
     end
-%end
+end
 
 %% Clean up workspace
-
+disp_str = [newline,'Finished',newline,str_line];
+dispstat(disp_str,'keepthis');
+    
 
 
 
