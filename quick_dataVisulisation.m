@@ -94,6 +94,9 @@ try
         quick_do_traces
     end
     
+    %%
+    dispstat(newline,'keepthis');
+    
     %% Plot Simple
     if plot_slices
         quick_plot_simple

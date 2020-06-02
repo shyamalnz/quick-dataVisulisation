@@ -3,11 +3,8 @@
 %% Script Below Here   %%
 %% %%%%%%%%%%%%%%%%%%%%%%
 
-
-
-
 %% Update Command Line
-disp_str = ['Figures ',num2str(fig_c),' - Global fitting'];
+disp_str = ['Figures ',num2str(fig_c),' to ',num2str(fig_c+1),' - Global fitting'];
 dispstat(disp_str,'keepthis');
 
 %%
