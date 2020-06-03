@@ -5,7 +5,12 @@ Welcome to a bunch of scripts to help analysis your 2D data. The set of scripts 
 
 There are two main scripts to run
 1. quick_dataVisulisation
-2. quick_explore_GF
+
+2. quick_rotate_LSQ
+
+3. quick_explore_GF
+
+   
 
 The MATLAB command window will have important details, please read.
 
@@ -44,3 +49,23 @@ quick_dataVisulisation
 ## plot_slices 
 
 ![](README_Images/plot_slices-output.png)
+
+## plot_slices _LSQ  
+
+![](README_Images/plot_slices_LSQ-output.png)
+
+## do_SVD  
+
+![](README_Images/do_SVD-output1.png)
+
+![](README_Images/do_SVD-output2.png)
+
+## do_global_fit  
+
+![](README_Images/do_global_fit-output1.png)
+
+![](README_Images/do_global_fit-output2.png)
+
+## quick_explore_GF 
+
+![](README_Images/plot_slices_LSQ-output.png)
