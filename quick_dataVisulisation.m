@@ -15,9 +15,9 @@ y_units = ['\DeltaT/T'];
 
 %% What do I want to do, options below
 crop_data = true;
-plot_slices = true; % every day traces
-plot_slices_LSQ = true; % trys to measure surface with LSQ fitting
-do_SVD = true;
+plot_slices = false; % every day traces
+plot_slices_LSQ = false; % trys to measure surface with LSQ fitting
+do_SVD = false;
 do_global_fit = true;
 
 %% Data Cropping Options
@@ -59,9 +59,9 @@ start_lifetimes = {
     '10 n', '100 n', '1 u', '10 u'
     };
 
-tzOffset = [-5E-9,5E-9];
-delta = [100E-12,3E-9];
-kScaler = [10E-12,1E-1];
+tzOffset = [-5E-9,5E-9];%Range of possibe time zero
+delta = [100E-12,3E-9]; %Range of possibe IRF
+kScaler = [10E-12,1E-1]; %Range of possibe lifetimes
 
 
 %% SVD
