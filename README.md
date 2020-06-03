@@ -1,6 +1,4 @@
-<style type="text/css">
-    ol { list-style-type: upper-alpha; }
-</style>
+
 
 # Quick Data Visualization
 
@@ -62,7 +60,7 @@ The most rudimentary presentation of the data. The color scale is white/grey at 
 
 Identify spectra and kinetic regions that change over time.
 
-### Output Description
+### Description of  output
 
 A single figure comprised of 4 panels
 
@@ -74,6 +72,24 @@ A single figure comprised of 4 panels
 </ol>
 
 ![](README_Images/plot_surface-output.png)
+
+### Example description of analysis
+
+* The data blue region of the data has been cropped because the sample absorbs the probe here.
+* Red end cropped based on WLG stability
+
+Regions
+
+* There are three distant time regions
+  * -1 ns to 0
+  * 3 ns to 10 ns
+  * 1us +
+* The spectral features that decay on similar time scales are
+  * PIA at ~1 eV has a short lifetime
+  * PIA at 1.3 eV is narrow and live to 1us +
+  * Broad PIA centered about 1.9 eV has lifetime ~10ns
+
+
 
 ## plot_slices 
 
