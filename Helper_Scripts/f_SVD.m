@@ -104,6 +104,7 @@ if opt.showPlots
         scatterFh
         fh
         ];
+    pause(1);
     %% Plots each components contributions
     residual = zeros(size(data,1),size(data,2),opt.NumPlotted);
     
