@@ -43,4 +43,4 @@ quick_dataVisulisation
 
 ## plot_slices 
 
-![plot_slices-output](H:\OneDrive\UNSW\Software\quick-2D-plots\README_Images\plot_slices-output.png)
+![](README_Images/plot_slices-output.png)
