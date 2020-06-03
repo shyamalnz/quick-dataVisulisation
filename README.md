@@ -73,7 +73,7 @@ A single figure comprised of 4 panels
 
 ![](README_Images/plot_surface-output.png)
 
-### Example description of analysis
+### Example of analysis
 
 #### Cropping
 
@@ -95,29 +95,59 @@ A single figure comprised of 4 panels
 
 ## plot_slices 
 
-Taking slices along the two axis of your data is the most rudimentary and important step of data analysis. 
+Taking slices along the two axis of your data is the most important step of data analysis, in some cases it can be the only analysis necessary. 
+
+### Goal
+
+### Description of  output
 
 ![](README_Images/plot_slices-output.png)
 
+### Example of analysis
+
 ## plot_slices _LSQ  
+
+### Goal
+
+### Description of  output
 
 ![](README_Images/plot_slices_LSQ-output.png)
 
+### Example of analysis
+
 ## do_SVD  
+
+### Goal
+
+### Description of  output
 
 ![](README_Images/do_SVD-output1.png)
 
 ![](README_Images/do_SVD-output2.png)
 
-## do_global_fit  
+### Example of analysis
+
+## do_global_fit
+
+### Goal
+
+### Description of  output  
 
 ![](README_Images/do_global_fit-output1.png)
 
 ![](README_Images/do_global_fit-output2.png)
 
+### Example of analysis
+
 ## quick_explore_GF 
 
+### Goal
+
+### Description of  output  
+
 ![](README_Images/quick_explore_GF-output.png)
+
+### Example of analysis
 
 
 
