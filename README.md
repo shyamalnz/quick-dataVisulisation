@@ -75,10 +75,12 @@ A single figure comprised of 4 panels
 
 ### Example description of analysis
 
+#### Cropping
+
 * The data blue region of the data has been cropped because the sample absorbs the probe here.
 * Red end cropped based on WLG stability
 
-Regions
+#### Regions
 
 * There are three distant time regions
   * -1 ns to 0
