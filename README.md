@@ -1,3 +1,7 @@
+<style type="text/css">
+    ol { list-style-type: upper-alpha; }
+</style>
+
 # Quick Data Visualization
 
 ## Introduction
@@ -62,10 +66,12 @@ Identify spectra and kinetic regions that change over time.
 
 A single figure comprised of 4 panels
 
-1. The original data, without any cropping. Use this to make sure the cropping is correct
-2. Cropped data at with the z-limits you have chosen.
-3. Cropped data with z-limit ten times tighter then chosen
-4. Cropped data with z-limits ten time looser then chosen
+<ol type="a">
+  <li>The original data, without any cropping. Use this to make sure the cropping is correct</li>
+  <li>Cropped data at with the z-limits you have chosen.</li>
+  <li>Cropped data with z-limit ten times tighter then chosen</li>
+  <li>Cropped data with z-limits ten time looser then chosen</li>
+</ol>
 
 ![](README_Images/plot_surface-output.png)
 
@@ -95,7 +101,5 @@ Taking slices along the two axis of your data is the most rudimentary and import
 
 ![](README_Images/quick_explore_GF-output.png)
 
-<style type="text/css">
-    ol { list-style-type: upper-alpha; }
-</style>
+
 
