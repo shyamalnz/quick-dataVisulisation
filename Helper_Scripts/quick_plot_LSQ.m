@@ -39,12 +39,12 @@ is_nan = any(isnan(data),1);
 % X = A\B is the solution in the least squares sense to the under- or overdetermined system of equations A*X = B
 
 %% Spectra
-X = spectra(~is_nan,:)\data(:,~is_nan)';
-f_Plot(spectra,wave,h_s(1),'zLim',zLim,'LineStyle',ls_spectra,'Legend',specLabel(4,:),'PlotStyles',kin_c);
-f_Plot(X',time,h_s(2:3),'PlotStyles',kin_c,'patch',spec_time(:,1:2),'LineStyle',ls_kinetics);
+decay_LSQ = spectra(~is_nan,:)\data(:,~is_nan)';
+f_Plot(spectra,wave,h_s(1),'zLim',zLim,'LineStyle',ls_spectra,'Legend',specLabel(4,:),'PlotStyles',spec_c);
+f_Plot(decay_LSQ',time,h_s(2:3),'PlotStyles',spec_c,'patch',spec_time(:,1:2),'LineStyle',ls_kinetics);
 
 res = data;
-res(:,~is_nan) = data(:,~is_nan) - [spectra(~is_nan,:)*X]';
+res(:,~is_nan) = data(:,~is_nan) - [spectra(~is_nan,:)*decay_LSQ]';
 f_Plot(res,time,wave,h_s(4:5),'zLim',zLim);
 
 %% Kinetics
