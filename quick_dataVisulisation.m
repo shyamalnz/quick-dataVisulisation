@@ -13,11 +13,16 @@ fs_neg_time = -1E-12;
 y_units = ['\DeltaT/T'];
 
 %% What do I want to do, options below
+
 crop_data = true;
-plot_slices = false; % every day traces
+
+plot_slices = true; % every day traces
+
 plot_slices_LSQ = false; % trys to measure surface with LSQ fitting
+
 do_SVD = false;
-do_global_fit = true;
+
+do_global_fit = false;
 
 %% Data Cropping Options
 % zero for noise region
@@ -43,10 +48,10 @@ spec_time = [
 % eV for kinetics
 kin_eV = [
     %start, % end, norm scalar, plot_norm
-    2.08,  2.07,     1    ,  1
-    1.95,  2.05,     1    ,  1
-    1.291, 1.259,    1    ,  0
-    0.9911, 0.9386,  1    ,  0
+    %2.08,   2.07,           1,  1
+    1.95,    2.05,           1.45e-3,  1
+    1.291,  1.259,           0.645e-3,  1
+    0.9911,0.9386,           1,  0
     ];
 
 %% Global Fitting Options
