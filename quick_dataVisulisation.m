@@ -13,10 +13,9 @@ fs_neg_time = -1E-12;
 y_units = ['\DeltaT/T'];
 
 %% What do I want to do, options below
+plot_surface = true;
 
-crop_data = true;
-
-plot_slices = true; % every day traces
+plot_slices = false; % every day traces
 
 plot_slices_LSQ = false; % trys to measure surface with LSQ fitting
 
@@ -25,6 +24,8 @@ do_SVD = false;
 do_global_fit = false;
 
 %% Data Cropping Options
+crop_data = true; % do you actually want to crop the data
+
 % zero for noise region
 zero_ev = []; % zero the eV region here
 

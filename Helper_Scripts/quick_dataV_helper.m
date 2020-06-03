@@ -23,6 +23,38 @@ try
     %%
     dispstat(newline,'keepthis');
     
+    %% Plot Surface
+    if plot_surface
+        RowStyles = {
+            'LinLog'
+            'LinLog'
+            };
+        axesNumTxtAppend = {
+            'Input Data'
+            'Cropped Data'
+            'Cropped Data \times10'
+            'Cropped Data \div10'
+            };
+        
+        [ h, fh, positions,titleH,fontSize,tbh] = f_MultiLinLogAxes(2,fig_c,'RowStyles',RowStyles,...
+            'xPadding',200,'xRightOffset',150,'xLeftOffset',-50,'axesNumTxtAppend',axesNumTxtAppend);
+        
+        
+        % Plot Data
+        f_Plot(data_loaded,time_loaded,wave_loaded,h(1:2),'zLim',zLim);
+        % Plot Data
+        f_Plot(data,time,wave,h(3:4),'zLim',zLim);
+        % Plot Data
+        f_Plot(data,time,wave,h(5:6),'zLim',zLim./10);
+        % Plot Data
+        f_Plot(data,time,wave,h(7:8),'zLim',zLim.*10);
+        
+        
+        pause(1);
+    end
+    fig_c = fig_c + 1;
+    
+    
     %% Plot Simple
     if plot_slices
         quick_plot_simple

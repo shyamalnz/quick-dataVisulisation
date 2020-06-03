@@ -18,6 +18,10 @@ The MATLAB command window will have important details, please read.
 
 A brief description of the functions is below, please read the individual sections for more details on each, they are located after the 'Running the scripts' section
 
+### plot_surface
+
+Will represent the data surface.
+
 ### plot_slices 
 
 This will take simple kinetic and spectra of the dataset, it will intergrade between the regions entered. The slices are defined in the `%% Plotting` section of the code.
@@ -46,7 +50,28 @@ Run the script called "quick_dataVisulisation", the majority of lines in this co
 quick_dataVisulisation
 ```
 
+## plot_surface
+
+The most rudimentary presentation of the data. The color scale is white/grey at zero, with positive values being red and negative being blue. 
+
+### Goal
+
+Identify spectra and kinetic regions that change over time.
+
+### Output Description
+
+A single figure comprised of 4 panels
+
+1. The original data, without any cropping. Use this to make sure the cropping is correct
+2. Cropped data at with the z-limits you have chosen.
+3. Cropped data with z-limit ten times tighter then chosen
+4. Cropped data with z-limits ten time looser then chosen
+
+![](README_Images/plot_surface-output.png)
+
 ## plot_slices 
+
+Taking slices along the two axis of your data is the most rudimentary and important step of data analysis. 
 
 ![](README_Images/plot_slices-output.png)
 
@@ -69,3 +94,8 @@ quick_dataVisulisation
 ## quick_explore_GF 
 
 ![](README_Images/quick_explore_GF-output.png)
+
+<style type="text/css">
+    ol { list-style-type: upper-alpha; }
+</style>
+
