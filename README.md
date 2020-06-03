@@ -68,4 +68,4 @@ quick_dataVisulisation
 
 ## quick_explore_GF 
 
-![](README_Images/plot_slices_LSQ-output.png)
+![](README_Images/quick_explore_GF-output.png)
