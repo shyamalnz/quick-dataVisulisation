@@ -80,7 +80,7 @@ error_reporting = false;
 
 %
 start_directory = pwd;
-working_folder = [start_directory,'\Helper_Scripts\'];
+working_folder = [start_directory,'\Nordak_Steelfists_Spellbok\'];
 cd(working_folder);
 
 quick_dataV_helper
