@@ -45,7 +45,7 @@ f_Plot(decay_LSQ',time,h_s(2:3),'PlotStyles',spec_c,'patch',spec_time(:,1:2),'Li
 
 res = data;
 res(:,~is_nan) = data(:,~is_nan) - [spectra(~is_nan,:)*decay_LSQ]';
-f_Plot(res,time,wave,h_s(4:5),'zLim',zLim);
+f_Plot(res,time,wave,h_s(4:5),'zLim',zLim/10);
 
 %% Kinetics
 X = kinetics\data(:,~is_nan);
@@ -59,5 +59,5 @@ f_Plot(X_p,wave,h_k(3),'LineStyle',ls_spectra,'PlotStyles',kin_c,'patch',kin_eV(
 %%
 res = data;
 res(:,~is_nan) = data(:,~is_nan) - kinetics*X;
-f_Plot(res,time,wave,h_k(4:5),'zLim',zLim);
+f_Plot(res,time,wave,h_k(4:5),'zLim',zLim/10);
 f_Plot(data,time,wave,h_2(1:2),'zLim',zLim);
