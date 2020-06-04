@@ -8,7 +8,7 @@ Welcome to a bunch of scripts to help analysis your 2D data. The set of scripts 
 There are two main scripts to run
 1. quick_dataVisulisation
 
-2. quick_rotate_LSQ
+2. quick_rotate_LSQ (work in progress)
 
 3. quick_explore_GF
 
