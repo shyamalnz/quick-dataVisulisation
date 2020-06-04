@@ -15,9 +15,9 @@ y_units = ['\DeltaT/T'];
 %% What do I want to do, options below
 plot_surface = true;
 
-plot_slices = false; % every day traces
+plot_slices = true; % every day traces
 
-plot_slices_LSQ = false; % trys to measure surface with LSQ fitting
+plot_slices_LSQ = true; % trys to measure surface with LSQ fitting
 
 do_SVD = false;
 
@@ -30,29 +30,27 @@ crop_data = true; % do you actually want to crop the data
 zero_ev = []; % zero the eV region here
 
 crop_time = [-10E-9,1E-3]; % will
-crop_eV = [2.05,0.9]; % will
+crop_eV = [3,0.7]; % will
 
-zLim = [-2,1]*1E-3;
-zLim_norm = [-2,1];
+zLim = [-3,3]*1E-3;
+zLim_norm = [-1,1.1];
 %zLim = []; % leave blank for auto
 
 %% Plotting
 % times for spectra
 spec_time = [
      %start,   % end, norm scalar,  plot_norm
-    -0.1E-9,  0.1E-9,   0.9131E-3,   1
-       1E-9,    2E-9,    1.293E-3,   1
-     0.9E-7,    2E-7,        1E-3,   0
-      %1E-4,    3E-4,        1E-3,   0
+    -0.1E-12,  0.1E-12,   0.9131E-3,   0
+     100E-12,  200E-12,    2.128E-3,   1
+        1E-9,     4E-9,    1.544E-3,   1
     ];
 
 % eV for kinetics
 kin_eV = [
     %start, % end, norm scalar, plot_norm
-    %2.08,   2.07,           1,  1
-    1.95,    2.05,           1.45e-3,  1
-    1.291,  1.259,           0.645e-3,  1
-    0.9911,0.9386,           1,  0
+    1.45,    1.47,          -2.627E-3,  1
+    1.31,    1.32,          -2.037E-3,  1
+    2.15,    2.16,           2.183E-3,  1
     ];
 
 %% Global Fitting Options
