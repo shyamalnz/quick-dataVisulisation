@@ -135,6 +135,8 @@ end
 
 fullSummary.weighting = weighting;
 fitSummary = zeros(size(kArray,1),size(kArray,2)+3);
+fitSummary_kLower = fitSummary;
+fitSummary_kUppder = fitSummary;
 fullSummary.k1.DAS = [];
 %% Fits data to each k=
 for j = 1: numK
@@ -153,18 +155,16 @@ for j = 1: numK
     LB = ones(length(k),1)*-0.5;
     UB = ones(length(k),1)*0.5;
     
+    
+    
+    %%
     [k,resnorm,residual,exitflag,output,lambda,jacobian] = lsqnonlin(@f_GlobalFit, k, LB, UB,...
         optimset('Algorithm', 'trust-region-reflective', 'Display', 'off', 'FinDiffType', 'central', 'TolFun', 1E-12),...
         data, time, wave, kScaler, delta,  tzOffset, weighting);
+    kOutput = k;
     
-    %[Q,R] = qr(jacobian,0);
-    %mse = sum(abs(residual).^2)/(size(jacobian,1)-size(jacobian,2));
-    %Rinv = inv(R);
-    %Sigma = Rinv*Rinv'*mse;
-    %se = sqrt(diag(Sigma));
-    
-    
-    
+    CI = nlparci(kOutput,residual,'jacobian',jacobian);
+    % https://au.mathworks.com/matlabcentral/answers/460386-can-i-use-the-jacobian-provided-by-lsqnonlin-to-compute-the-confidence-intervals-using-nlparci
     
     [ resMatrix,  DAS, expTime, dataPred, deltaFitted, tzOffsetFitted, k_outFitted] = f_GlobalFit( k, data, time, wave, kScaler, delta, tzOffset, weighting);
     
@@ -172,10 +172,14 @@ for j = 1: numK
     dataPred = dataPred*scaleFactor;
     resMatrix = resMatrix*scaleFactor;
     
-    kOutput = k;
-    k = f_FittingScaler(k, kScaler, 0);
+    k = f_FittingScaler(kOutput, kScaler, 0);
+    CI(:,1) = f_FittingScaler(CI(:,1) , kScaler, 0);
+    CI(:,2) = f_FittingScaler(CI(:,2) , kScaler, 0);
+    
     k = 10.^k;
-    k = sort(k,'descend');
+    CI = 10.^CI;
+    [k,I_k] = sort(k,'descend');
+    CI = CI(I_k,:);
     %
     
     [~,i_sort] = sort(k_outFitted,'descend');
@@ -186,6 +190,9 @@ for j = 1: numK
     %
     res = sum(sum((dataPred-data*scaleFactor).^2));
     fitSummary(j, 1:length(k)) = k_outFitted;
+    fitSummary_kLower(j, 1:length(k)) = CI(:,1);
+    fitSummary_kUppder(j, 1:length(k)) = CI(:,2);
+    
     fitSummary(j, end-2:end) = [deltaFitted, tzOffsetFitted, res];
     
     fullSummary.(['k',num2str(j)]).RateConstants = k_outFitted;
@@ -199,6 +206,7 @@ for j = 1: numK
     fullSummary.(['k',num2str(j)]).ResidualNorm = res./sum(sum(data*scaleFactor.^2));
     fullSummary.(['k',num2str(j)]).kOutput = kOutput;
     fullSummary.(['k',num2str(j)]).kScaler = kScaler;
+    fullSummary.(['k',num2str(j)]).CI = CI;
     
     if opt.plotR
         if j == 1 
@@ -311,6 +319,9 @@ if opt.plotR
     size_mark = fliplr(size_mark(1:size(ps,1)))./2;
     size_mark = size_mark.^2;
     
+    n_offset = 0.1;
+    n_step = n_offset*2./(size(ps,1)-1);
+    
     for n = 1 : size(ps,1)
         if n == 1
             hold(h(2), 'off'),
@@ -324,18 +335,27 @@ if opt.plotR
             makers_u = '^';
         end
         
+        lifetimes_plot = 1./fitSummary(n,1:numK(n));
         
-        ph_h = plot(h(2), 1:numK(n), 1./fitSummary(n,1:numK(n)),'LineWidth',2.5,...
-            'LineStyle','none', 'MarkerSize', size_mark(n),'Marker', makers_u, 'color', ps(n,:));
+        lifetimes_plot_lower = 1./fitSummary_kLower(n,1:numK(n));
+        lifetimes_plot_upper = 1./fitSummary_kUppder(n,1:numK(n));
+        
+        ph_h = errorbar(h(2), [1:numK(n)] - n_offset + (n-1)*n_step, lifetimes_plot,lifetimes_plot_lower,lifetimes_plot_upper,'LineWidth',2.5,...
+            'LineStyle','none', 'MarkerSize', size_mark(n),'Marker', makers_u, 'color', ps(n,:),'MarkerFaceColor','auto');
         
     end
     
     set(h(2), 'YScale', 'log', 'xlim', [0,max(numK)+1], 'xtick', [0:max(numK)+1]);
     ylabel(h(2), 'time constant (s)');
-    xlabel(h(2), 'time constant');
+    xlabel(h(2), 'Fit');
     legend(h(2), traceLabel(1:size(ps,1)), 'Location', 'SouthEast');
     title(h(2), 'Lifetimes for multiple fits','FontWeight','bold','FontSize', 11)
     grid(h(2), 'on');
+    
+    if h(2).YLim(1) < 10E-15
+        h(2).YLim(1) = 5E-15;
+    end
+        h(2).YLim(2) = h(2).YLim(2)*1.5;
     
     if length(tzOffset) > 1 || length(delta) > 1
         
@@ -399,6 +419,7 @@ if opt.plotR
         ylabel(h(4), ylab);
     end
 end
+
 end
 
 
