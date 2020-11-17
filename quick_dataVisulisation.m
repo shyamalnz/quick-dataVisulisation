@@ -1,5 +1,5 @@
 %% Data Loaction
-start_folder = 'F:\OneDrive\UNSW\Software\quick-2D-plots\';
+start_folder = 'H:\OneDrive\UNSW\Software\quick-2D-plots\_test-data\';
 pick_new_file = false;
 
 %% General Options
@@ -19,9 +19,9 @@ plot_slices = true; % every day traces
 
 plot_slices_LSQ = true; % trys to measure surface with LSQ fitting
 
-do_SVD = false;
+do_SVD = true;
 
-do_global_fit = false;
+do_global_fit = true;
 
 %% Data Cropping Options
 crop_data = true; % do you actually want to crop the data
@@ -30,7 +30,7 @@ crop_data = true; % do you actually want to crop the data
 zero_ev = []; % zero the eV region here
 
 crop_time = [-10E-9,1E-3]; % will
-crop_eV = [3,0.7]; % will
+crop_eV = [2.1,0.9]; % will
 
 zLim = [-3,3]*1E-3;
 zLim_norm = [-1,1.1];
@@ -62,8 +62,8 @@ start_lifetimes = {
     };
 
 tzOffset = [-5E-9,5E-9];%Range of possibe time zero
-delta = [100E-12,3E-9]; %Range of possibe IRF
-kScaler = [10E-12,1E-1]; %Range of possibe lifetimes
+delta = [100E-15,3E-9]; %Range of possibe IRF
+kScaler = [10E-15,1E-1]; %Range of possibe lifetimes
 
 %% SVD
 components_to_plot = 4;
