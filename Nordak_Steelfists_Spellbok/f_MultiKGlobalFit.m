@@ -225,8 +225,16 @@ for j = 1: numK
         
         DAS_p = f_AveTrace(DAS,5);
         wave_p = f_AveTrace(wave,5);
-        f_Plot(DAS_p, wave_p, h(j), 'Ylabel', YLabel1,...
-            'RescaleData',0,'XLabel',wave_str,'PlotStyles',plot_color,'LineStyle','-','PointStyle','');
+        
+        DAS_s = max(abs(DAS_p));
+        
+        [leg_s_r, leg_ratio] = f_num2str( DAS_s);
+        
+        leg = strcat(leg_s_r,' (',leg_ratio,')');
+        
+        f_Plot(DAS_p./DAS_s, wave_p, h(j), 'Ylabel', YLabel1,...
+            'RescaleData',0,'XLabel',wave_str,'PlotStyles',plot_color,'LineStyle','-','PointStyle','','legend',leg);
+        
         title(h(j),['Fit ',num2str(j)],'FontWeight','bold','FontSize', 11);
         f_Plot(expTime, time, [h(2*j-1 + numK), h(2*j + numK)], 'Ylabel',...
             YLabel2,'removeXTick',1,'PlotStyles',plot_color,...
