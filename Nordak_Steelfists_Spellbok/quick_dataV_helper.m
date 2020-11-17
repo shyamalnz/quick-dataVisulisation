@@ -1,5 +1,5 @@
 
-try
+
     fig_c = fig_number;
     
     keep_vars = {
@@ -90,8 +90,8 @@ try
     % this produces 2 figure
     fig_c = fig_c + 2;
     
-catch ME
-    
+
+if false    
     %% Error Code
     
     %pause(1)
